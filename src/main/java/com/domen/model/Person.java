@@ -1,7 +1,7 @@
 package com.domen.model;
 
 public class Person {
-    private String name;
+    private final String name;
     private boolean inSpace;
     private double trajectoryAngle;
     private double speed;

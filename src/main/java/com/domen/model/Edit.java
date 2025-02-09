@@ -3,9 +3,9 @@ package com.domen.model;
 import java.util.Date;
 
 public class Edit {
-    private Contributor contributor;
-    private String content;
-    private Date timestamp;
+    private final Contributor contributor;
+    private final String content;
+    private final Date timestamp;
 
     public Edit(Contributor contributor, String content, Date timestamp) {
         this.contributor = contributor;

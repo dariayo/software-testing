@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Space {
-    private boolean isVast;
-    private List<String> brightSpots;
-    private List<Person> floatingPersons;
+    private final boolean isVast;
+    private final List<String> brightSpots;
+    private final List<Person> floatingPersons;
 
     public Space(boolean isVast, List<String> brightSpots) {
         this.isVast = isVast;

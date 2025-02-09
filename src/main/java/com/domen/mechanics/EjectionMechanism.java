@@ -6,7 +6,7 @@ import com.domen.model.Person;
 import com.domen.model.Space;
 
 public class EjectionMechanism {
-    private Random random = new Random();
+    private final Random random = new Random();
 
     public void ejectPersons(Space space, Person... persons) {
         for (Person person : persons) {

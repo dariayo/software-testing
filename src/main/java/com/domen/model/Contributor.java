@@ -1,8 +1,8 @@
 package com.domen.model;
 
 public class Contributor {
-    private String name;
-    private int reputation;
+    private final String name;
+    private final int reputation;
 
     public Contributor(String name, int reputation) {
         this.name = name;

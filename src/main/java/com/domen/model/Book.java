@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Book {
-    private String title;
-    private String introduction;
-    private List<Edition> editions;
+    private final String title;
+    private final String introduction;
+    private final List<Edition> editions;
 
     public Book(String title, String introduction) {
         this.title = title;

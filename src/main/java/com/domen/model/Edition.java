@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Edition {
-    private int version;
-    private List<Contributor> contributors;
-    private List<Edit> editHistory;
+    private final int version;
+    private final List<Contributor> contributors;
+    private final List<Edit> editHistory;
 
     public Edition(int version) {
         this.version = version;

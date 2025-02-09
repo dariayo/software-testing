@@ -1,4 +1,4 @@
-package src.main.java.com.domen.enums;
+package com.domen.enums;
 
 public enum SpaceEvent {
     ENGINE_START("Запуск двигателя"),

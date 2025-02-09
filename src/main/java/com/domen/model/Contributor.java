@@ -1,4 +1,4 @@
-package src.main.java.com.domen.model;
+package com.domen.model;
 
 public class Contributor {
     private String name;

@@ -1,7 +1,8 @@
-package src.main.java.com.domen.model;
+package com.domen.model;
 
-import src.main.java.com.domen.mechanics.EjectionMechanism;
-import src.main.java.com.domen.enums.*;
+import com.domen.enums.EngineStatus;
+import com.domen.enums.SpaceEvent;
+import com.domen.mechanics.EjectionMechanism;
 
 public class Engine {
     public EngineStatus status;

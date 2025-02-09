@@ -1,4 +1,4 @@
-package src.main.java.com.domen.model;
+package com.domen.model;
 
 import java.util.Date;
 

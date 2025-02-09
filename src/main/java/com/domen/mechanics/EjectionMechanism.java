@@ -1,9 +1,9 @@
-package src.main.java.com.domen.mechanics;
+package com.domen.mechanics;
 
 import java.util.Random;
 
-import src.main.java.com.domen.model.Space;
-import src.main.java.com.domen.model.Person;
+import com.domen.model.Person;
+import com.domen.model.Space;
 
 public class EjectionMechanism {
     private Random random = new Random();

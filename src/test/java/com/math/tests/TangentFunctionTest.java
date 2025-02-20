@@ -36,6 +36,12 @@ public class TangentFunctionTest {
     }
 
     @Test
+    public void testBigAngle() {
+        double x = Math.PI;
+        assertThrows(IllegalArgumentException.class, () -> TangentFunction.tan(x, 10));
+    }
+
+    @Test
     public void testLargeAngle() {
         double x = Math.PI / 3;
         double result = TangentFunction.tan(x, 10);

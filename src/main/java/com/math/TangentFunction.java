@@ -11,6 +11,9 @@ public class TangentFunction {
         if (count <= 0) {
             throw new IllegalArgumentException("Terms must be a positive integer");
         }
+        if (Math.abs(x) > Math.PI / 2) {
+            throw new IllegalArgumentException("x must be smaller then PI/2");
+        }
         double result = 0;
         for (int n = 1; n <= count; n++) {
             double bernoulli = Bernoulli.getBernoulli(2 * n);

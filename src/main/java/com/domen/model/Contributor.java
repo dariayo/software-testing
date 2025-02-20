@@ -1,19 +1,9 @@
 package com.domen.model;
 
-public class Contributor {
-    private final String name;
-    private final int reputation;
+import lombok.Getter;
+import lombok.Setter;
 
-    public Contributor(String name, int reputation) {
-        this.name = name;
-        this.reputation = reputation;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getReputation() {
-        return reputation;
-    }
+@Getter
+@Setter
+public record Contributor(String name, int reputation) {
 }

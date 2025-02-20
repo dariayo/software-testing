@@ -16,28 +16,29 @@ public class Edition {
     }
 
     public void addContributor(Contributor contributor) {
-        contributors.add(contributor);
+        if (!contributors.contains(contributor)) {
+            contributors.add(contributor);
+        } else {
+            throw new IllegalStateException("Участник " + contributor.name() + " уже существует");
+        }
     }
 
     public boolean submitEdit(Contributor contributor, String content) {
         for (Edit edit : editHistory) {
-            if (edit.getContributor().equals(contributor)) {
-                System.out.println("Conflict detected: " + contributor.getName());
-                return false;
+            if (edit.contributor().equals(contributor)) {
+                throw new IllegalArgumentException("Конфликт: участник " + contributor.name() + " уже вносил изменения.");
             }
         }
         editHistory.add(new Edit(contributor, content, new Date()));
         return true;
     }
-
     public List<Contributor> getContributors() {
         return contributors;
     }
 
-    public int getVersion() {
+    public int getVersion(){
         return version;
     }
-
     public List<Edit> getEditHistory() {
         return editHistory;
     }

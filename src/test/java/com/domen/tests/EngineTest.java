@@ -1,11 +1,12 @@
 package com.domen.tests;
 
-import java.util.List;
 
 import com.domen.enums.EngineStatus;
 import com.domen.model.Engine;
 import com.domen.model.Person;
 import com.domen.model.Space;
+import com.domen.strategy.ElectricEngineStrategy;
+import com.domen.strategy.IonEngineStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,8 +21,9 @@ public class EngineTest {
 
     @BeforeEach
     void setUp() {
-        engine = new Engine();
-        space = new Space(true, List.of("Звезда 1", "Звезда 2"));
+        engine = new Engine(new IonEngineStrategy());
+        space = Space.getInstance();
+        space.getFloatingPersons().clear();
         ford = new Person("Форд");
         arthur = new Person("Артур");
     }
@@ -45,5 +47,25 @@ public class EngineTest {
 
         assertTrue(ford.getTrajectoryAngle() >= 0 && ford.getTrajectoryAngle() <= 360);
         assertTrue(ford.getSpeed() >= 5 && ford.getSpeed() <= 20);
+    }
+
+    @Test
+    void testIonEngineSpeedIncrease() {
+        engine.speedIncrease();
+        engine.speedIncrease();
+        assertEquals(20, engine.getSpeed());
+    }
+
+    @Test
+    void testElectricEngineSpeedIncrease() {
+        engine.setEngineStrategy(new ElectricEngineStrategy());
+        engine.speedIncrease();
+        assertEquals(10, engine.getSpeed());
+    }
+
+    @Test
+    void testNoFuelInEngine() {
+        engine.setFuel(0);
+        assertEquals(EngineStatus.OFF, engine.getStatus());
     }
 }

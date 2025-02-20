@@ -40,7 +40,7 @@ public class Engine {
         triggerEvent(SpaceEvent.ENGINE_START);
 
         while (speed < 100 && fuel > 0) {
-            speedIncrease();
+            engineStrategy.increaseSpeed(this);
             soundIncrease(speed);
         }
 
@@ -49,18 +49,6 @@ public class Engine {
         triggerEvent(SpaceEvent.CONFETTI_LIKE_EJECTION);
 
         ejectionMechanism.ejectPersons(space, persons);
-    }
-
-    public void speedIncrease() {
-        int fuelConsumptionRate = 10;
-        if (fuel >= fuelConsumptionRate) {
-            this.speed += 10;
-            this.fuel -= fuelConsumptionRate;
-            logger.info("Скорость увеличена до: " + speed + ", остаток топлива: " + fuel);
-        } else {
-            logger.info("Топливо кончилось");
-            refuel(random.nextInt(100));
-        }
     }
 
     public void soundIncrease(int currentSpeed) {
@@ -112,7 +100,11 @@ public class Engine {
         return logger;
     }
 
-    public void setEngineStrategy(EngineStrategy engineStrategy){
+    public void setEngineStrategy(EngineStrategy engineStrategy) {
         this.engineStrategy = engineStrategy;
+    }
+
+    public EngineStrategy getEngineStrategy() {
+        return engineStrategy;
     }
 }

@@ -32,13 +32,15 @@ public class Edition {
         editHistory.add(new Edit(contributor, content, new Date()));
         return true;
     }
+
     public List<Contributor> getContributors() {
         return contributors;
     }
 
-    public int getVersion(){
+    public int getVersion() {
         return version;
     }
+
     public List<Edit> getEditHistory() {
         return editHistory;
     }

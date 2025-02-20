@@ -1,5 +1,8 @@
 package com.domen.tests;
 
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
 import com.domen.model.Person;
 import com.domen.model.Space;
 import org.junit.jupiter.api.Test;
@@ -7,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.slf4j.LoggerFactory;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,7 +21,7 @@ public class SpaceTest {
 
     @BeforeEach
     void setUp() {
-        space = Space.getInstance();
+        space = new Space();
         space.getFloatingPersons().clear();
         arthur = new Person("Артур");
     }
@@ -64,5 +68,21 @@ public class SpaceTest {
         assertTrue(space.getFloatingPersons().size() <= 10);
     }
 
+    @Test
+    void testEjectPersonAlreadyInSpace() {
+        ListAppender<ILoggingEvent> listAppender;
+        LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+        listAppender = new ListAppender<>();
+        listAppender.start();
+        loggerContext.getLogger(Person.class).addAppender(listAppender);
+        arthur.ejectToSpace(180, 12.5);
+
+        arthur.ejectToSpace(90, 15.0);
+
+        boolean logContainsMessage = listAppender.list.stream()
+                .anyMatch(event -> event.getMessage().contains(arthur.getName() + " уже в открытом космосе"));
+
+        assertTrue(logContainsMessage);
+    }
 
 }

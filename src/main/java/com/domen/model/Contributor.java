@@ -5,5 +5,5 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public record Contributor(String name, int reputation) {
+public record Contributor(String name) {
 }

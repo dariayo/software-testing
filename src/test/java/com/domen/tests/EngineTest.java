@@ -1,14 +1,21 @@
 package com.domen.tests;
 
 
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
 import com.domen.enums.EngineStatus;
 import com.domen.model.Engine;
 import com.domen.model.Person;
 import com.domen.model.Space;
 import com.domen.strategy.ElectricEngineStrategy;
+import com.domen.strategy.EngineStrategy;
 import com.domen.strategy.IonEngineStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.slf4j.LoggerFactory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -22,7 +29,7 @@ public class EngineTest {
     @BeforeEach
     void setUp() {
         engine = new Engine(new IonEngineStrategy());
-        space = Space.getInstance();
+        space = new Space();
         space.getFloatingPersons().clear();
         ford = new Person("Форд");
         arthur = new Person("Артур");
@@ -51,21 +58,68 @@ public class EngineTest {
 
     @Test
     void testIonEngineSpeedIncrease() {
-        engine.speedIncrease();
-        engine.speedIncrease();
-        assertEquals(20, engine.getSpeed());
+        engine.getEngineStrategy().increaseSpeed(engine);
+        engine.getEngineStrategy().increaseSpeed(engine);
+        assertEquals(10, engine.getSpeed());
     }
 
     @Test
     void testElectricEngineSpeedIncrease() {
         engine.setEngineStrategy(new ElectricEngineStrategy());
-        engine.speedIncrease();
+        engine.getEngineStrategy().increaseSpeed(engine);
         assertEquals(10, engine.getSpeed());
+
+        engine.setEngineStrategy(new IonEngineStrategy());
+        engine.getEngineStrategy().increaseSpeed(engine);
+        assertEquals(15, engine.getSpeed());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "0, 'Топливо закончилось. Двигатель остановлен.'",
+            "50, ''"
+    })
+    void testFuelLogMessages(int fuelLevel, String expectedMessage) {
+        LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+        loggerContext.getLogger(Engine.class).addAppender(listAppender);
+
+        engine.setFuel(fuelLevel);
+
+        engine.activate(space, ford);
+
+        boolean logContainsMessage = listAppender.list.stream()
+                .anyMatch(event -> event.getMessage().contains(expectedMessage));
+
+        assertTrue(logContainsMessage);
     }
 
     @Test
-    void testNoFuelInEngine() {
-        engine.setFuel(0);
-        assertEquals(EngineStatus.OFF, engine.getStatus());
+    void testFuelRefuel() {
+        engine.setFuel(50);
+        engine.setSpeed(50);
+        engine.refuel(60);
+
+        assertEquals(110, engine.getFuel());
+        engine.refuel(1110);
+        assertEquals(1000, engine.getFuel());
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "IonEngineStrategy",
+            "ElectricEngineStrategy"
+    })
+    void testFuelConsumptionAndRefuel(String engineStrategyClass) throws Exception {
+        EngineStrategy strategy = (EngineStrategy) Class.forName("com.domen.strategy." + engineStrategyClass)
+                .getDeclaredConstructor().newInstance();
+
+        engine.setEngineStrategy(strategy);
+        engine.setFuel(1);
+        engine.getEngineStrategy().increaseSpeed(engine);
+        assertTrue(engine.getFuel() > 5);
+    }
+
+
 }

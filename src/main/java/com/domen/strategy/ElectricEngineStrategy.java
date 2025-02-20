@@ -2,7 +2,11 @@ package com.domen.strategy;
 
 import com.domen.model.Engine;
 
+import java.util.Random;
+
 public class ElectricEngineStrategy implements EngineStrategy {
+    Random random = new Random();
+
     @Override
     public void increaseSpeed(Engine engine) {
         if (engine.getFuel() >= 10) {
@@ -11,6 +15,7 @@ public class ElectricEngineStrategy implements EngineStrategy {
             engine.getLogger().info("Электрический двигатель: скорость увеличена до " + engine.getSpeed());
         } else {
             engine.getLogger().info("Недостаточно топлива для электрического двигателя!");
+            engine.refuel(random.nextInt(100));
         }
     }
 }

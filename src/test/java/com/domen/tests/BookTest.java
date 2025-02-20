@@ -25,8 +25,8 @@ public class BookTest {
                 .build();
 
         edition = new Edition(1);
-        andrew = new Contributor("Andrew", 80);
-        vladimir = new Contributor("Vladimir", 60);
+        andrew = new Contributor("Andrew");
+        vladimir = new Contributor("Vladimir");
 
         edition.addContributor(andrew);
         edition.addContributor(vladimir);
@@ -46,17 +46,6 @@ public class BookTest {
 
         assertThrows(IllegalArgumentException.class, () -> edition.submitEdit(andrew, "Повторная правка от Andrew"));
         assertEquals(1, edition.getEditHistory().size());
-    }
-
-    @Test
-    void testReputationImpact() {
-        boolean firstEdit = edition.submitEdit(vladimir, "Информация о планете");
-        boolean secondEdit = edition.submitEdit(andrew, "Правка");
-
-        assertTrue(firstEdit);
-        assertTrue(secondEdit);
-
-        assertTrue(andrew.reputation() > vladimir.reputation());
     }
 
     @Test
@@ -85,5 +74,10 @@ public class BookTest {
 
         assertTrue(emptyEdition.getEditHistory().isEmpty(),
                 "Редакция с версией " + version + " не должна иметь истории изменений");
+    }
+
+    @Test
+    void addExistContributor() {
+        assertThrows(IllegalStateException.class, () -> edition.addContributor(andrew));
     }
 }

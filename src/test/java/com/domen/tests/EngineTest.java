@@ -36,6 +36,21 @@ public class EngineTest {
     }
 
     @Test
+    void checkSequenceOfActions() {
+        LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+        loggerContext.getLogger(Engine.class).addAppender(listAppender);
+
+        engine.refuel(10);
+
+        boolean logContainsMessage = listAppender.list.stream()
+                .anyMatch(event -> event.getMessage().contains("Двигатель выключен"));
+
+        assertTrue(logContainsMessage);
+    }
+
+    @Test
     void testEngineActivationAndEjection() {
         engine.activate(space, ford, arthur);
 
@@ -97,6 +112,7 @@ public class EngineTest {
 
     @Test
     void testFuelRefuel() {
+        engine.activate(space, ford);
         engine.setFuel(50);
         engine.setSpeed(50);
         engine.refuel(60);
@@ -114,7 +130,7 @@ public class EngineTest {
     void testFuelConsumptionAndRefuel(String engineStrategyClass) throws Exception {
         EngineStrategy strategy = (EngineStrategy) Class.forName("com.domen.strategy." + engineStrategyClass)
                 .getDeclaredConstructor().newInstance();
-
+        engine.activate(space, ford);
         engine.setEngineStrategy(strategy);
         engine.setFuel(1);
         engine.getEngineStrategy().increaseSpeed(engine);

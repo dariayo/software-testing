@@ -49,25 +49,36 @@ public class Engine {
     }
 
     public void soundIncrease(int currentSpeed) {
-        if (currentSpeed >= 0 && currentSpeed < 50) {
-            this.sound = EngineSound.QUIET;
-        }
-        if (currentSpeed >= 50 && currentSpeed <= 200) {
-            this.sound = EngineSound.MEDIUM;
+        if (!checkEngineActive(this.status)) {
+            logger.info("Двигатель выключен");
         } else {
-            this.sound = EngineSound.LOUD;
+            if (currentSpeed >= 0 && currentSpeed < 50) {
+                this.sound = EngineSound.QUIET;
+            } else if (currentSpeed >= 50 && currentSpeed <= 200) {
+                this.sound = EngineSound.MEDIUM;
+            } else {
+                this.sound = EngineSound.LOUD;
+            }
+            logger.info("Звук " + sound.getDescription());
         }
-        logger.info("Звук " + sound.getDescription());
     }
 
     public void refuel(int amount) {
-        if (fuel + amount <= maxFuel) {
-            fuel += amount;
-            logger.info("Топливо пополнено. Текущий уровень: " + fuel);
+        if (!checkEngineActive(this.status)) {
+            logger.info("Двигатель выключен");
         } else {
-            fuel = maxFuel;
-            logger.info("Топливный бак заполнен полностью.");
+            if (fuel + amount <= maxFuel) {
+                fuel += amount;
+                logger.info("Топливо пополнено. Текущий уровень: " + fuel);
+            } else {
+                fuel = maxFuel;
+                logger.info("Топливный бак заполнен полностью.");
+            }
         }
+    }
+
+    public boolean checkEngineActive(EngineStatus status) {
+        return !status.getDescription().equals(EngineStatus.OFF.getDescription());
     }
 
     private void triggerEvent(SpaceEvent event) {

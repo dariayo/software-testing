@@ -1,14 +1,12 @@
 package com.extension;
 
-import com.domen.model.Book;
-import com.domen.model.Edition;
+import com.domen.model.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(MockInitExtension.class)
 public class AutoMockInitTest {
     @Mock
     private Edition mockEdition;

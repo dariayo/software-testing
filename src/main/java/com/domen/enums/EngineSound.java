@@ -8,7 +8,13 @@ public enum EngineSound {
     QUIET("Зажужжал мотор"),
     MEDIUM("Тихий свист мотора"),
     LOUD("Рев мотора");
+    final String description;
 
     EngineSound(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return this.description;
     }
 }

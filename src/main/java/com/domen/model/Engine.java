@@ -8,8 +8,6 @@ import com.domen.strategy.EngineStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Random;
-
 public class Engine {
     private EngineSound sound;
     public EngineStatus status;
@@ -18,7 +16,6 @@ public class Engine {
     private int speed;
 
     private final int maxFuel = 1000;
-    private final Random random = new Random();
     private static final Logger logger = LoggerFactory.getLogger(Engine.class);
     private EngineStrategy engineStrategy;
 
@@ -52,7 +49,7 @@ public class Engine {
     }
 
     public void soundIncrease(int currentSpeed) {
-        if (currentSpeed >= 0 && currentSpeed <= 50) {
+        if (currentSpeed >= 0 && currentSpeed < 50) {
             this.sound = EngineSound.QUIET;
         }
         if (currentSpeed >= 50 && currentSpeed <= 200) {
@@ -60,6 +57,7 @@ public class Engine {
         } else {
             this.sound = EngineSound.LOUD;
         }
+        logger.info("Звук " + sound.getDescription());
     }
 
     public void refuel(int amount) {

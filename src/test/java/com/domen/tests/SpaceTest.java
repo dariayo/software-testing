@@ -22,7 +22,6 @@ public class SpaceTest {
     @BeforeEach
     void setUp() {
         space = new Space();
-        space.getFloatingPersons().clear();
         arthur = new Person("Артур");
     }
 

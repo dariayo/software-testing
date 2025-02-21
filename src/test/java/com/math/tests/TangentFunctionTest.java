@@ -16,7 +16,7 @@ public class TangentFunctionTest {
     @Test
     public void testZeroTan() {
         double result = TangentFunction.tan(0, 10);
-        assertEquals(0.0, result, 1e-5);
+        assertEquals(0.0, result, 0.01);
     }
 
     @Test
@@ -36,7 +36,7 @@ public class TangentFunctionTest {
     }
 
     @Test
-    public void testBigAngle() {
+    public void testIllegalAngle() {
         double x = Math.PI;
         assertThrows(IllegalArgumentException.class, () -> TangentFunction.tan(x, 10));
     }

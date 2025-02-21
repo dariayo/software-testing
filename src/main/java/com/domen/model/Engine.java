@@ -82,7 +82,7 @@ public class Engine {
     }
 
     private void triggerEvent(SpaceEvent event) {
-        System.out.println(event.getDescription());
+        logger.info(event.getDescription());
     }
 
     public EngineStatus getStatus() {

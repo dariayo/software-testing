@@ -94,6 +94,7 @@ public class EngineTest {
     @ParameterizedTest
     @CsvSource({
             "0, 'Топливо закончилось. Двигатель остановлен.'",
+            "5, 'Запуск двигателя'",
             "50, ''"
     })
     void testFuelLogMessages(int fuelLevel, String expectedMessage) {

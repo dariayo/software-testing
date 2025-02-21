@@ -4,6 +4,7 @@ package com.domen.tests;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
+import com.domen.enums.EngineSound;
 import com.domen.enums.EngineStatus;
 import com.domen.model.Engine;
 import com.domen.model.Person;
@@ -43,6 +44,7 @@ public class EngineTest {
         loggerContext.getLogger(Engine.class).addAppender(listAppender);
 
         engine.refuel(10);
+        engine.soundIncrease(200);
 
         boolean logContainsMessage = listAppender.list.stream()
                 .anyMatch(event -> event.getMessage().contains("Двигатель выключен"));
@@ -135,6 +137,20 @@ public class EngineTest {
         engine.setFuel(1);
         engine.getEngineStrategy().increaseSpeed(engine);
         assertTrue(engine.getFuel() > 5);
+    }
+
+    @Test
+    void testSoundIncrease() {
+        engine.activate(space, ford);
+        engine.soundIncrease(2000);
+        assertEquals(EngineSound.LOUD.getDescription(), engine.getSound());
+
+        engine.soundIncrease(45);
+        assertEquals(EngineSound.QUIET.getDescription(), engine.getSound());
+
+        engine.soundIncrease(200);
+        assertEquals(EngineSound.MEDIUM.getDescription(), engine.getSound());
+
     }
 
 

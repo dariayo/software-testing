@@ -116,4 +116,8 @@ public class Engine {
     public EngineStrategy getEngineStrategy() {
         return engineStrategy;
     }
+
+    public String getSound(){
+        return sound.getDescription();
+    }
 }

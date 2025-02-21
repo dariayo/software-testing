@@ -5,7 +5,7 @@ import com.domen.model.Engine;
 import java.util.Random;
 
 public class IonEngineStrategy implements EngineStrategy {
-    Random random = new Random();
+    private final Random random = new Random();
 
     @Override
     public void increaseSpeed(Engine engine) {

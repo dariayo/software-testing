@@ -18,7 +18,7 @@ public class MockInitExtension implements TestInstancePostProcessor {
                     Object mock = Mockito.mock(field.getType());
                     field.set(testInstance, mock);
                 } catch (IllegalAccessException e) {
-                    System.err.println("Не удалось инжектировать мок в поле " + field.getName() + ": " + e.getMessage());
+                    System.err.println("Ошибка при инициализации " + ": " + e.getMessage());
                 }
             }
         }
